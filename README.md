@@ -9,7 +9,7 @@ First, set up the installer by modifying the included configuration file. Change
 
 - *How do I configure uCPKmi?*
 
-Open the included configuration file (uCPKmi.cfg). You should configure it like this:
+Open the included configuration file (uCPKmi.cfg). You should configure it like this (text between "%%" are comments):
 ```
 [CPK]
 CPKPath=%The path to your CPK File% (ex: ".\cpk\")
@@ -27,7 +27,7 @@ The releases of uCPKmi already include PackCPK by Skyth, so you normally don't n
 
 - *How do I make my mods compatible with uCPKmi?*
 
-Set up your mod like this (stuff between "%%" are comments):
+Set up your mod like this (text between "%%" are comments):
 ```
 %modfolder%\%a folder%\%filesgohere%
 %modfolder%\mod.ini
