@@ -1,4 +1,4 @@
-## Sonic Forces Mod Installer
+## Universal CPK Mod Installer
 
 Universal CPK Mod Installer (uCPKmi) is a mod installer made in a .bat script, that simplifies the process of installing mods into games that use CPK files to store data.
 It automatically extracts, repacks, and saves a backup of your CPK of choice, so you don't need to be afraid of loosing your game files, or to extract and repack files yourself.
