@@ -32,6 +32,8 @@ Set up your mod like this (text between "%%" are comments):
 %modfolder%\%a folder%\%filesgohere%
 %modfolder%\mod.ini
 ```
+You can also pack the mod itself in a CPK file. Just make sure to put it in the path you specify in mod.ini.
+
 Your mod.ini should be setup like this:
 ```
 [Main]
