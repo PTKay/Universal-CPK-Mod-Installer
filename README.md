@@ -38,7 +38,7 @@ You can also pack the mod itself in a CPK file. Just make sure to put it in the 
 Your mod.ini should be setup like this:
 ```
 [Main]
-ModFiles=%The path for your mod files% (ex: ".\modfiles\" or ".\cpk\data\")
+ModFiles=%The path for your mod files inside the mod folder% (ex: "modfiles" or "cpk\data" or "disk\wars_patch")
 
 [Desc]
 Title=%The title of your mod%
