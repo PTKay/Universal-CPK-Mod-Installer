@@ -50,7 +50,6 @@ if /i %skipchecks% EQU true (goto skipchecks)
 if /i %debugstart% EQU true (goto skipchecks)
 if not defined worklocation (set "worklocation=%cd%")
 
-
 if not defined cpk (
   echo ERROR [NOT_CONFIGURED]
   echo ----------
@@ -79,7 +78,6 @@ if not defined cpktool (
 if not defined cachelocation (set cachelocation=.\ucpkmi)
 if not defined modsfolder (set modsfolder=.\mods)
 if not defined modsdb (set modsdb=%modsfolder%\ModsDB.ini)
-
 
 
 
@@ -308,6 +306,7 @@ goto menu
 :status
 cls
 echo INFO
+echo uCPKmi Version=%ucpkmiver%
 echo.
 echo CPKPath="%cpk%"
 echo CpkName="%cpkname%"
