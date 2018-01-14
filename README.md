@@ -47,3 +47,7 @@ Version=%The Version%
 Date=%The Date%
 Author=%Your Name%
 ```
+
+# Credits
+- PackCPK by Skyth
+
