@@ -1,5 +1,5 @@
 @echo off
-set ucpkmiver=BETA 1
+set ucpkmiver=1.0
 title Universal CPK Mod Installer %ucpkmiver%
 if exist ucpkmistartup.bat (call ucpkmistartup.bat)
 
@@ -19,6 +19,7 @@ if not exist ucpkmi.cfg (
   for /f "tokens=1,2 delims==" %%a in (ucpkmi.cfg) do (
   if /I %%a==cpkname set cpkname=%%b
 )
+set cpkonlyname=%cpkname:.cpk=%
 
   for /f "tokens=1,2 delims==" %%a in (ucpkmi.cfg) do (
   if /I %%a==ModsFolder set ModsFolder=%%b
@@ -46,6 +47,7 @@ if not exist ucpkmi.cfg (
   if /I %%a==debugstart set debugstart=%%b
 )
 
+if not exist %cachelocation% (md %cachelocation%)
 if /i %skipchecks% EQU true (goto skipchecks)
 if /i %debugstart% EQU true (goto skipchecks)
 if not defined worklocation (set "worklocation=%cd%")
@@ -132,10 +134,40 @@ if /i "%modfoldernormal%" EQU "!exit" (exit)
 if /i "%modfoldernormal%" EQU "!status" (goto status)
 if /i "%modfoldernormal%" EQU "!debug" (goto status)
 
-  for /f "tokens=1,2 delims==" %%a in (%modsfolder%\%modfoldernormal%\mod.ini) do (
-  if /I %%a==title set title=%%b
+
+
+
+if not "%modfoldernormal%"=="%modfoldernormal: =%" (
+  cls
+  echo ERROR
+  echo ----------
+  echo The mod's folder cannot have a space in its name.
+  echo Please rename the folder and try again.
+  pause >nul
+  goto menu
 )
 
+if not exist %modsfolder%\%modfoldernormal% (
+  cls
+  echo ERROR
+  echo ----------
+  echo Mod folder does not exist
+  pause >nul
+  goto menu
+)
+
+if not exist %modsfolder%\%modfoldernormal%\mod.ini (
+  cls
+  echo ERROR
+  echo ----------
+  echo Not a valid mod folder.
+  echo Forgot to create mod.ini?
+  pause >nul
+  goto menu
+)
+
+  for /f "tokens=1,2 delims==" %%a in (%modsfolder%\%modfoldernormal%\mod.ini) do (
+  if /I %%a==title set title=%%b
 )
   for /f "tokens=1,2 delims==" %%a in (%modsfolder%\%modfoldernormal%\mod.ini) do (
   if /I %%a==author set author=%%b
@@ -149,22 +181,23 @@ if /i "%modfoldernormal%" EQU "!debug" (goto status)
   for /f "tokens=1,2 delims==" %%a in (%modsfolder%\%modfoldernormal%\mod.ini) do (
   if /I %%a==modfiles set modfiles=%%b
 )
-  for /f "tokens=1,2 delims==" %%a in (%modsfolder%\%modfoldernormal%\mod.ini) do (
-  if /I %%a==ExampleMod set ExampleMod=%%b
-)
 
 :confirm
 set confirm=
 if not exist %modsfolder%\%modfoldernormal% (
   cls
-  echo Mod folder does not exist
-  echo Maybe you added a space in the name?
+  echo ERROR
+  echo ----------
+  echo The mod's folder cannot have a space in its name.
+  echo Please rename the folder and try again.
   pause >nul
   goto menu
 )
 
 if not exist %modsfolder%\%modfoldernormal%\mod.ini (
   cls
+  echo ERROR
+  echo ----------
   echo Not a valid mod folder.
   echo Forgot to create mod.ini?
   pause >nul
@@ -177,11 +210,6 @@ echo Do you want to install %title% by %author%?
 echo Version: %modver%
 echo Description: %description%
 echo.
-if /i %ExampleMod% EQU True (
-echo [This is an example mod]
-pause >nul
-goto menu
-)
 set /p confirm=(Y/N)
 if /i "%confirm%" NEQ "Y" if /i "%confirm%" NEQ "N" goto confirm
 if /i %confirm% EQU Y goto install
@@ -213,16 +241,16 @@ for %%x in (%modsfolder%\%modfoldernormal%\%modfiles%\*.cpk) do (
 :cpkproceed
 %cpktool% %cpkinstallation%
 echo IF THIS LOOKS STUCK, DON'T DO ANYTHING! IT ISN'T!
-  if not exist "%cachelocation%\ucpkmi_%cpkname%" (
+  if not exist "%cachelocation%\ucpkmi_%cpkonlyname%" (
   %cpktool% "%cpk%\%cpkname%"
-  rename %cpkname% ucpkmi_%cpkname%
-  move ucpkmi_%cpkname% "%cachelocation%" >nul
+  rename %cpkonlyname% ucpkmi_%cpkonlyname%
+  move ucpkmi_%cpkonlyname% "%cachelocation%" >nul
 ) else (
   echo Extracted files already found, skipping extraction...
 )
 echo --------------------------
 echo IF THIS LOOKS STUCK, DON'T DO ANYTHING! IT ISN'T!
-%cpktool% "%cachelocation%\ucpkmi_%cpkname%" "%cpkname%"
+%cpktool% "%cachelocation%\ucpkmi_%cpkonlyname%" "%cpkonlyname%"
 echo --------------------------
 echo %title% >> %modsdb%
 echo Done! Press any key to exit!
@@ -230,20 +258,21 @@ pause >nul
 exit
 )
 
-if not exist "%cachelocation%\ucpkmi_%cpkname%" (
+if not exist "%cachelocation%\ucpkmi_%cpkonlyname%" (
   echo IF THIS LOOKS STUCK, DON'T DO ANYTHING! IT ISN'T!
   %cpktool% "%cpk%\%cpkname%"
-  rename %cpkname% ucpkmi_%cpkname%
-  move ucpkmi_%cpkname% "%cachelocation%" >nul
+  rename %cpkonlyname% ucpkmi_%cpkonlyname%
+  move ucpkmi_%cpkonlyname% "%cachelocation%" >nul
 ) else (
   echo Extracted files already found, skipping extraction...
 )
 echo --------------------------
 echo Copying files...
-xcopy /s /y "%modsfolder%\%modfoldernormal%\%modfiles%\" "%cachelocation%\ucpkmi_%cpkname%" >nul
+pause
+xcopy /s /y "%modsfolder%\%modfoldernormal%\%modfiles%" "%cachelocation%\ucpkmi_%cpkonlyname%" >nul
 echo --------------------------
 echo IF THIS LOOKS STUCK, DON'T DO ANYTHING! IT ISN'T!
-%cpktool% "%cachelocation%\ucpkmi_%cpkname%" "%cpk%\%cpkname%"
+%cpktool% "%cachelocation%\ucpkmi_%cpkonlyname%" "%cpk%\%cpkonlyname%"
 echo --------------------------
 echo %title% >> %modsdb%
 echo Done! Press any key to exit!
@@ -273,7 +302,7 @@ echo ---------
 if not exist "%modsdb%" (
   echo No mods are currently installed
 ) else (
-type %modsdb%
+type "%modsdb%"
 )
 echo ---------
 echo This will uninstall all of your currently installed mods
@@ -297,7 +326,7 @@ del %cpk%\%cpkname%
 ren %cpk%\%cpkname%.backup %cpkname%
 del /q "%cachelocation%\*"
 FOR /D %%p IN ("%cachelocation%\*.*") DO rmdir "%%p" /s /q
-del /q %modsfolder%\uCPKmi_modsdb.ini
+del /q "%modsdb%"
 echo.
 echo Done! Press any key to go back to the menu
 pause >nul
@@ -310,8 +339,9 @@ echo uCPKmi Version=%ucpkmiver%
 echo.
 echo CPKPath="%cpk%"
 echo CpkName="%cpkname%"
+echo CpkNameWithoutFiletype="%cpkonlyname%"
 echo ModsFolder="%modsfolder%"
-echo ModsDatabase="%modsdb%"
+echo ModsDatabasePath="%modsdb%"
 echo WorkLocation="%worklocation%"
 echo uCPKmi Cache Location="%cachelocation%"
 pause >nul
