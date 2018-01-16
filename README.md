@@ -3,6 +3,8 @@
 Universal CPK Mod Installer (uCPKmi) is a mod installer made in a .bat script, that simplifies the process of installing mods into games that use CPK files to store data.
 It automatically extracts, repacks, and saves a backup of your CPK of choice, so you don't need to be afraid of loosing your game files, or to extract and repack files yourself.
 
+
+# FAQ
 - *How do I use this?*
 
 First, set up the installer by modifying the included configuration file. Change the CPK path, the name, and customize different paths used by the installer if you so desire. Then. put your mods in the mod folder (the one you chose), and they'll be ready for instalation.
