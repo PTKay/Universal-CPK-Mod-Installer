@@ -12,7 +12,7 @@ First, set up the installer by modifying the included configuration file. Change
 Open the included configuration file (uCPKmi.cfg). You should configure it like this (text between "%%" are comments):
 ```
 [CPK]
-CPKPath=%The path to your CPK File% (ex: ".\cpk\")
+CPKPath=%The path to your CPK File% (ex: ".\cpk\". Add the final slash or else it won't work. If the CPK is in the same folder as the tool, leave this blank)
 CPKName=%The name of your cpk file% (ex: data.cpk)
 
 [Mods]
