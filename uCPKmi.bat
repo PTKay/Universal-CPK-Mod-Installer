@@ -1,5 +1,5 @@
 @echo off
-set ucpkmiver=1.0
+set ucpkmiver=1.1
 title Universal CPK Mod Installer %ucpkmiver%
 if exist ucpkmistartup.bat (call ucpkmistartup.bat)
 
@@ -92,7 +92,7 @@ if not exist "%cpktool%" (
   exit
 )
 
-if not exist "%cpk%\%cpkname%" (
+if not exist "%cpk%%cpkname%" (
   echo ERROR [NO_CPK]
   echo ----------
   echo Could not find %cpkname%!
@@ -219,9 +219,9 @@ if /i %confirm% EQU n goto menu
 
 :install
 echo --------------------------
-if not exist "%CPK%\%cpkname%.backup" (
+if not exist "%cpk%%cpkname%.backup" (
   echo No backup detected, backing up %cpkname% as %cpkname%.backup...
-  echo f|xcopy /y "%cpk%\%cpkname%" "%cpk%\%cpkname%.backup" >nul
+  echo f|xcopy /y "%cpk%%cpkname%" "%cpk%%cpkname%.backup" >nul
 ) else (
   echo Backup of %cpkname% already detected, proceeding instalation...
   echo You have 7 seconds to close this window if this is wrong...
@@ -242,7 +242,7 @@ for %%x in (%modsfolder%\%modfoldernormal%\%modfiles%\*.cpk) do (
 %cpktool% %cpkinstallation%
 echo IF THIS LOOKS STUCK, DON'T DO ANYTHING! IT ISN'T!
   if not exist "%cachelocation%\ucpkmi_%cpkonlyname%" (
-  %cpktool% "%cpk%\%cpkname%"
+  %cpktool% "%cpk%%cpkname%"
   rename %cpkonlyname% ucpkmi_%cpkonlyname%
   move ucpkmi_%cpkonlyname% "%cachelocation%" >nul
 ) else (
@@ -260,7 +260,7 @@ exit
 
 if not exist "%cachelocation%\ucpkmi_%cpkonlyname%" (
   echo IF THIS LOOKS STUCK, DON'T DO ANYTHING! IT ISN'T!
-  %cpktool% "%cpk%\%cpkname%"
+  %cpktool% "%cpk%%cpkname%"
   rename %cpkonlyname% ucpkmi_%cpkonlyname%
   move ucpkmi_%cpkonlyname% "%cachelocation%" >nul
 ) else (
@@ -268,11 +268,10 @@ if not exist "%cachelocation%\ucpkmi_%cpkonlyname%" (
 )
 echo --------------------------
 echo Copying files...
-pause
 xcopy /s /y "%modsfolder%\%modfoldernormal%\%modfiles%" "%cachelocation%\ucpkmi_%cpkonlyname%" >nul
 echo --------------------------
 echo IF THIS LOOKS STUCK, DON'T DO ANYTHING! IT ISN'T!
-%cpktool% "%cachelocation%\ucpkmi_%cpkonlyname%" "%cpk%\%cpkonlyname%"
+%cpktool% "%cachelocation%\ucpkmi_%cpkonlyname%" "%cpk%%cpkonlyname%"
 echo --------------------------
 echo %title% >> %modsdb%
 echo Done! Press any key to exit!
@@ -313,7 +312,7 @@ goto menu
 
 
 :uninstallyes
-if not exist "%cpk%\%cpkname%.backup" (
+if not exist "%cpk%%cpkname%.backup" (
 echo ERROR
 echo No backup of your current cpk was detected!
 echo Without a backup, the uninstaller cannot proceed.
@@ -322,8 +321,8 @@ goto menu
 )
 
 echo Uninstalling mods...
-del %cpk%\%cpkname%
-ren %cpk%\%cpkname%.backup %cpkname%
+del %cpk%%cpkname%
+ren %cpk%%cpkname%.backup %cpkname%
 del /q "%cachelocation%\*"
 FOR /D %%p IN ("%cachelocation%\*.*") DO rmdir "%%p" /s /q
 del /q "%modsdb%"
