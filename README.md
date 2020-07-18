@@ -50,6 +50,10 @@ Date=%The Date%
 Author=%Your Name%
 ```
 
+- *Why is this a BAT file?*
+
+Good question. This was made back when I had no knowledge of any programming language, and the only thing I knew was the language used in these files. This means that the file itself is a complete mess due to lack of code organization knowledge. If you want to look at the code, proceed with caution.
+
 ## Credits
 - PackCPK by Skyth
 
